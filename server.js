@@ -6,14 +6,14 @@ const Project = require("./models/Project");
 
 const app = express();
 
-// ✅ CORS (safe for internship + deployment)
+// CORS
 app.use(cors({
   origin: "*"
 }));
 
 app.use(express.json());
 
-// ✅ Health check route (important for Render)
+// Health check
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");
 });
@@ -62,15 +62,14 @@ app.put("/projects/:id", async (req, res) => {
 });
 
 // ---------------- MONGODB ----------------
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log("MongoDB Error:", err));
 
-// ---------------- RENDER FIX ----------------
-// IMPORTANT: Render provides dynamic PORT
+// ❗ FIXED (removed old options)
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log("MongoDB Error:", err));
+
+// ---------------- SERVER ----------------
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
